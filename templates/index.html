@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhishGuard – Phishing URL Detector</title>
+  <meta name="description" content="Instantly detect phishing and malicious URLs using AI-powered heuristics, domain intelligence, and VirusTotal threat data." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- Background particles -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">🛡️</span>
+        <span class="logo-text">PhishGuard</span>
+      </div>
+      <p class="tagline">AI-Powered URL Threat Intelligence</p>
+    </header>
+
+    <!-- Input Section -->
+    <section class="input-section glass-card">
+      <h1 class="section-title">Scan a URL for Threats</h1>
+      <p class="section-subtitle">Analyse any link instantly with heuristic detection, domain intelligence &amp; VirusTotal data.</p>
+
+      <form id="scan-form" class="scan-form" autocomplete="off">
+        <div class="input-wrapper">
+          <span class="input-icon">🔗</span>
+          <input
+            type="text"
+            id="url-input"
+            name="url"
+            placeholder="Paste a URL here… e.g. https://example.com"
+            class="url-input"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button type="submit" id="scan-btn" class="scan-btn">
+            <span class="btn-text">Scan</span>
+            <span class="btn-spinner hidden" id="spinner">⏳</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Results Section (hidden initially) -->
+    <section id="results-section" class="results-section hidden">
+
+      <!-- Verdict Card -->
+      <div id="verdict-card" class="verdict-card glass-card">
+        <div class="verdict-header">
+          <div id="verdict-icon" class="verdict-icon"></div>
+          <div>
+            <p class="verdict-label">THREAT VERDICT</p>
+            <h2 id="verdict-text" class="verdict-text"></h2>
+          </div>
+        </div>
+
+        <div class="score-ring-wrapper">
+          <svg class="score-ring" viewBox="0 0 120 120" id="score-svg">
+            <circle class="ring-bg" cx="60" cy="60" r="52" />
+            <circle class="ring-fill" cx="60" cy="60" r="52" id="ring-fill" />
+          </svg>
+          <div class="score-label">
+            <span id="score-number" class="score-number">0</span>
+            <span class="score-unit">/100</span>
+            <span class="score-sub">Risk Score</span>
+          </div>
+        </div>
+
+        <div class="scanned-url-row">
+          <span class="url-pill" id="scanned-url-display"></span>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card glass-card" id="stat-domain-age">
+          <div class="stat-icon">📅</div>
+          <div class="stat-info">
+            <span class="stat-label">Domain Age</span>
+            <span class="stat-value" id="stat-age-value">–</span>
+          </div>
+        </div>
+        <div class="stat-card glass-card" id="stat-https">
+          <div class="stat-icon">🔒</div>
+          <div class="stat-info">
+            <span class="stat-label">Protocol</span>
+            <span class="stat-value" id="stat-https-value">–</span>
+          </div>
+        </div>
+        <div class="stat-card glass-card" id="stat-vt">
+          <div class="stat-icon">🧬</div>
+          <div class="stat-info">
+            <span class="stat-label">VirusTotal</span>
+            <span class="stat-value" id="stat-vt-value">–</span>
+          </div>
+        </div>
+        <div class="stat-card glass-card" id="stat-shortener">
+          <div class="stat-icon">✂️</div>
+          <div class="stat-info">
+            <span class="stat-label">URL Shortener</span>
+            <span class="stat-value" id="stat-shortener-value">–</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Threat Flags -->
+      <div id="flags-section" class="glass-card detail-card">
+        <h3 class="detail-title">🚩 Threat Indicators</h3>
+        <div id="flags-list" class="flags-list"></div>
+      </div>
+
+      <!-- VirusTotal Detail -->
+      <div id="vt-section" class="glass-card detail-card">
+        <h3 class="detail-title">🧬 VirusTotal Report</h3>
+        <div id="vt-content" class="vt-content"></div>
+      </div>
+
+      <!-- Heuristic Breakdown -->
+      <div class="glass-card detail-card">
+        <h3 class="detail-title">🔍 Heuristic Breakdown</h3>
+        <div id="heuristic-grid" class="heuristic-grid"></div>
+      </div>
+
+    </section>
+
+    <!-- Error Banner -->
+    <div id="error-banner" class="error-banner hidden">
+      <span id="error-text"></span>
+    </div>
+
+    <footer class="footer">
+      <p>PhishGuard &copy; 2026 &mdash; Built with Flask &amp; VirusTotal v3 API</p>
+    </footer>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
